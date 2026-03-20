@@ -13,7 +13,8 @@
     }
 
     html, body {
-      height: calc(var(--vh, 1vh) * 100);
+      height: auto;          /* 改自適應高度，避免手機放大空白 */
+      min-height: 100%;      /* 至少填滿螢幕 */
       margin: 0;
       padding: 0;
       font-family:'Noto Sans', Arial, sans-serif;
@@ -163,6 +164,7 @@
     }
     window.addEventListener('resize', setFullHeight);
     window.addEventListener('load', setFullHeight);
+    window.addEventListener('orientationchange', setFullHeight); // 新增
     setFullHeight();
 
     // 按鈕邏輯
