@@ -101,24 +101,33 @@
 
   <div class="footer">© Taster Food Din Tai Fung UK</div>
 
-  <!-- Safari 偵測 -->
+  <!-- Safari 偵測（最終穩定版） -->
   <script>
     (function() {
       var ua = navigator.userAgent;
       var isSafari = ua.includes("Safari") && !ua.includes("Chrome");
+
+      // 已關閉過就不再顯示
+      if (localStorage.getItem("hideSafariBanner")) return;
 
       if (isSafari) {
         var banner = document.createElement("div");
         banner.className = "safari-banner";
 
         banner.innerHTML = `
-          <span class="close-btn" onclick="this.parentElement.remove()">✕</span>
+          <span class="close-btn">✕</span>
           ⚠️ If this page does not load properly on Safari:<br>
           👉 Please open with <b>Google Chrome</b><br>
           👉 OR go to Settings → Safari → Hide IP Address → <b>From Trackers Only</b>
         `;
 
         document.body.appendChild(banner);
+
+        var closeBtn = banner.querySelector(".close-btn");
+        closeBtn.addEventListener("click", function() {
+          localStorage.setItem("hideSafariBanner", "true");
+          banner.remove();
+        });
       }
     })();
   </script>
