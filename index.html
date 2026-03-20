@@ -9,12 +9,12 @@
 
   <style>
     :root {
-      --vh: 1vh; /* 用 JS 設定真實可視高度 */
+      --vh: 1vh;
     }
 
     html, body {
-      height: auto;          /* 改自適應高度，避免手機放大空白 */
-      min-height: 100%;      /* 至少填滿螢幕 */
+      height: auto;
+      min-height: 100%;
       margin: 0;
       padding: 0;
       font-family:'Noto Sans', Arial, sans-serif;
@@ -36,7 +36,7 @@
       display:grid; 
       grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); 
       gap:24px;
-      padding-bottom: 120px; /* 給底部 Banner 安全空間 */
+      padding-bottom: 120px;
     }
 
     .card { background:#fff; border-radius:14px; padding:20px; box-shadow:0 8px 20px rgba(0,0,0,0.06); border-top:5px solid #c8102e; }
@@ -48,7 +48,6 @@
 
     .footer { text-align:center; font-size:12px; color:#888; padding:20px; }
 
-    /* Safari Banner */
     .safari-banner {
       position: fixed;
       bottom: 0;
@@ -95,34 +94,32 @@
   </div>
 
   <div class="container">
-
     <div class="card">
       <h2>Essential Knowledge</h2>
       <a class="btn" href="https://view.genially.com/6986855075046ab5cf68aa6a">Knowledge 1 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/698a634a28b902d581e60e00/interactive-content-world-of-dtf-history-2">Knowledge 2 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/698a633e83e78dab7f39ffc9/interactive-content-world-of-dtf-history-3">Knowledge 3 <span class="arrow">→</span></a>
+      <a class="btn" href="https://view.genially.com/698a634a28b902d581e60e00">Knowledge 2 <span class="arrow">→</span></a>
+      <a class="btn" href="https://view.genially.com/698a633e83e78dab7f39ffc9">Knowledge 3 <span class="arrow">→</span></a>
     </div>
 
     <div class="card">
       <h2>Drinks Menu LV1</h2>
-      <a class="btn" href="https://view.genially.com/6986837dc32c59e7b116b8a0">Level 1 - 1 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/69a06311da979fbe0559dbd6/interactive-content-drinks-menu-lv1-2">Level 1 - 2 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/69bc0982a138ae2e3b44f5a5">Exam <span class="arrow">→</span></a>
+      <a class="btn" href="https://view.genially.com/6986837dc32c59e7b116b8a0">Level 1 - 1</a>
+      <a class="btn" href="https://view.genially.com/69a06311da979fbe0559dbd6">Level 1 - 2</a>
+      <a class="btn" href="https://view.genially.com/69bc0982a138ae2e3b44f5a5">Exam</a>
     </div>
 
     <div class="card">
       <h2>Food Menu LV1</h2>
-      <a class="btn" href="https://view.genially.com/6986853221f2ec8cab097ddd/interactive-content-food-menu-lv1-1">Level 1 - 1 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/69a03f7659ece1dfbaf6d2b6/interactive-content-food-menu-lv1-2">Level 1 - 2 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/69a0c73e5840493ebcaab9a4/interactive-content-food-menu-lv1-3">Level 1 - 3 <span class="arrow">→</span></a>
-      <a class="btn" href="https://view.genially.com/698685929104f4f95a8fc58f">Exam <span class="arrow">→</span></a>
+      <a class="btn" href="https://view.genially.com/6986853221f2ec8cab097ddd">Level 1 - 1</a>
+      <a class="btn" href="https://view.genially.com/69a03f7659ece1dfbaf6d2b6">Level 1 - 2</a>
+      <a class="btn" href="https://view.genially.com/69a0c73e5840493ebcaab9a4">Level 1 - 3</a>
+      <a class="btn" href="https://view.genially.com/698685929104f4f95a8fc58f">Exam</a>
     </div>
 
     <div class="card">
       <h2>DTF Reward System</h2>
-      <a class="btn" href="https://view.genially.com/69ba9571afb30334312528a6">Exam <span class="arrow">→</span></a>
+      <a class="btn" href="https://view.genially.com/69ba9571afb30334312528a6">Exam</a>
     </div>
-
   </div>
 
   <div class="footer">© Taster Food Din Tai Fung UK</div>
@@ -155,30 +152,45 @@
     })();
   </script>
 
-  <!-- 必選店別 & 按鈕安全滾動 -->
+  <!-- ✅ 穩定防崩潰版本 -->
   <script>
-    // 設定真實可視高度
-    function setFullHeight() {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-    window.addEventListener('resize', setFullHeight);
-    window.addEventListener('load', setFullHeight);
-    window.addEventListener('orientationchange', setFullHeight); // 新增
-    setFullHeight();
+    window.addEventListener('error', function(e) {
+      console.log('JS Error:', e.message);
+    });
 
-    // 按鈕邏輯
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        const store = document.getElementById('storeSelect').value;
-        if (!store) {
-          e.preventDefault();
-          alert('Please select a store before continuing.');
-        } else {
-          // 確保點擊後按鈕可見
-          setTimeout(()=>{ window.scrollTo({top:0, behavior:'smooth'}); }, 50);
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+
+      function setFullHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }
+
+      window.addEventListener('resize', setFullHeight);
+      window.addEventListener('load', setFullHeight);
+      window.addEventListener('orientationchange', setFullHeight);
+
+      setFullHeight();
+
+      const buttons = document.querySelectorAll('.btn');
+      const storeSelect = document.getElementById('storeSelect');
+
+      if (!buttons.length || !storeSelect) return;
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const store = storeSelect.value;
+
+          if (!store) {
+            e.preventDefault();
+            alert('Please select a store before continuing.');
+          } else {
+            setTimeout(()=>{ 
+              window.scrollTo({top:0, behavior:'smooth'}); 
+            }, 50);
+          }
+        });
       });
+
     });
   </script>
 
