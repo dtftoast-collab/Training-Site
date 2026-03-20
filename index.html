@@ -106,28 +106,29 @@
   <script>
     (function() {
       var ua = navigator.userAgent;
-      var isSafari = ua.includes("Safari") && !ua.includes("Chrome");
 
+      // 嚴格判斷 Safari（排除手機 Chrome/CriOS、Firefox/FxiOS、Edge/EdgiOS）
+      var isSafari = /Safari/.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS/.test(ua);
+
+      if (!isSafari) return;
       if (localStorage.getItem("hideSafariBanner")) return;
 
-      if (isSafari) {
-        var banner = document.createElement("div");
-        banner.className = "safari-banner";
+      var banner = document.createElement("div");
+      banner.className = "safari-banner";
 
-        banner.innerHTML = `
-          <span class="close-btn">✕</span>
-          ⚠️ If this page does not load properly on Safari:<br>
-          👉 Please open with <b>Google Chrome</b><br>
-          👉 OR go to Settings → Safari → Hide IP Address → <b>From Trackers Only</b>
-        `;
+      banner.innerHTML = `
+        <span class="close-btn">✕</span>
+        ⚠️ If this page does not load properly on Safari:<br>
+        👉 Please open with <b>Google Chrome</b><br>
+        👉 OR go to Settings → Safari → Hide IP Address → <b>From Trackers Only</b>
+      `;
 
-        document.body.appendChild(banner);
+      document.body.appendChild(banner);
 
-        banner.querySelector(".close-btn").onclick = function() {
-          localStorage.setItem("hideSafariBanner", "true");
-          banner.remove();
-        };
-      }
+      banner.querySelector(".close-btn").onclick = function() {
+        localStorage.setItem("hideSafariBanner", "true");
+        banner.remove();
+      };
     })();
   </script>
 
