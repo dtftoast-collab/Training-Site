@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Taster Food Din Tai Fung UK | Training Portal</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --vh: 1vh; /* 用 JS 設定真實可視高度 */
+    }
+
     html, body {
-      height: 100%;
+      height: calc(var(--vh, 1vh) * 100);
       margin: 0;
       padding: 0;
       font-family:'Noto Sans', Arial, sans-serif;
@@ -24,7 +28,15 @@
     .topbar { display:flex; justify-content:center; align-items:center; gap:10px; padding:16px; background:#fff; border-bottom:1px solid #eee; }
     .select { padding:10px 12px; border-radius:8px; border:1px solid #ddd; min-width:220px; font-size:14px; }
 
-    .container { max-width:1100px; margin:0 auto; padding:30px 20px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; }
+    .container { 
+      max-width:1100px; 
+      margin:0 auto; 
+      padding:30px 20px; 
+      display:grid; 
+      grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); 
+      gap:24px;
+      padding-bottom: 120px; /* 給底部 Banner 安全空間 */
+    }
 
     .card { background:#fff; border-radius:14px; padding:20px; box-shadow:0 8px 20px rgba(0,0,0,0.06); border-top:5px solid #c8102e; }
     .card h2 { font-size:16px; margin-bottom:14px; border-bottom:1px solid #eee; padding-bottom:6px; }
@@ -35,15 +47,16 @@
 
     .footer { text-align:center; font-size:12px; color:#888; padding:20px; }
 
+    /* Safari Banner */
     .safari-banner {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
       background: #fff3cd;
-      padding: 14px;
+      padding: 14px 50px 14px 14px;
       font-size: 14px;
-      text-align: center;
+      text-align: left;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
       z-index: 9999;
       box-sizing: border-box;
@@ -113,11 +126,10 @@
 
   <div class="footer">© Taster Food Din Tai Fung UK</div>
 
-  <!-- Safari 提示 -->
+  <!-- Safari Banner -->
   <script>
     (function() {
       var ua = navigator.userAgent;
-      // 只在 Safari 顯示，排除 Chrome / iOS Chrome / Firefox / Edge
       var isSafari = /Safari/.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS/.test(ua);
 
       if (!isSafari) return;
@@ -142,15 +154,27 @@
     })();
   </script>
 
-  <!-- 必選店別邏輯 -->
+  <!-- 必選店別 & 按鈕安全滾動 -->
   <script>
+    // 設定真實可視高度
+    function setFullHeight() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', setFullHeight);
+    window.addEventListener('load', setFullHeight);
+    setFullHeight();
+
+    // 按鈕邏輯
     document.querySelectorAll('.btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         const store = document.getElementById('storeSelect').value;
-
         if (!store) {
           e.preventDefault();
           alert('Please select a store before continuing.');
+        } else {
+          // 確保點擊後按鈕可見
+          setTimeout(()=>{ window.scrollTo({top:0, behavior:'smooth'}); }, 50);
         }
       });
     });
